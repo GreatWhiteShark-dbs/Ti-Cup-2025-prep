@@ -1,5 +1,5 @@
-#ifndef __EMM_V5_H
-#define __EMM_V5_H
+#ifndef __BSP_EMM_V5_H
+#define __BSP_EMM_V5_H
 
 #include "bsp_usart3.h"
 

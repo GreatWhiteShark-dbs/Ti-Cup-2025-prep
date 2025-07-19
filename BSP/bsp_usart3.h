@@ -1,7 +1,7 @@
 #ifndef __BSP_USART3_H
 #define __BSP_USART3_H
 
-#include "board.h"
+#include "bsp_board.h"
 #include "fifo.h"
 
 extern __IO bool rxFrameFlag;

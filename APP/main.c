@@ -1,9 +1,9 @@
-#include "board.h"
+#include "bsp_board.h"
 #include "delay.h"
 #include "bsp_usart3.h"
 #include "bsp_usart1.h"
-#include "Emm_V5.h"
-#include "gimbal.h"
+#include "bsp_emm_v5.h"
+#include "bsp_gimbal.h"
 
 /**
 	*	@brief		MAIN函数
@@ -23,47 +23,52 @@ int main(void)
 	delay_ms(2000);
 
 /**********************************************************
-***	USART1测试用例
+***	USART1测试用例 - 角度累加变量
 **********************************************************/
-	USART1_SendString("USART1 Test Started!\r\n");
-	USART1_Printf("System Clock: %d Hz\r\n", SystemCoreClock);
-	USART1_SendString("Waiting for commands...\r\n");
-
-/**********************************************************
-***	位置模式：方向CW，速度1000RPM，加速度0（不使用加减速直接启动），脉冲数3200（16细分下发送3200个脉冲电机转一圈），相对运动
-**********************************************************/	
-  //Emm_V5_Pos_Control(1, 0, 50, 1, 320000, 0, 0);
-	Gimbal_SetYawAngle(1800);
-	delay_ms(2);
-	Gimbal_SetPitchAngle(1800);   
+	static float yaw_angle = 0.0f;    // 偏航角度，初始180度
+	static float pitch_angle = 0.0f;  // 俯仰角度，初始180度
 	
-/**********************************************************
-***	等待返回命令，命令数据缓存在数组rxCmd上，长度为rxCount
-**********************************************************/	
-//	while(rxFrameFlag == false); rxFrameFlag = false;
+	USART1_SendString("USART1 Motor Control Test Started!\r\n");
+	USART1_Printf("System Clock: %d Hz\r\n", SystemCoreClock);
+	USART1_SendString("Send any data to make motors rotate 360 degrees...\r\n");
+	USART1_Printf("Initial Position - Yaw: %.1f, Pitch: %.1f\r\n", yaw_angle, pitch_angle);
 
+/**********************************************************
+***	设置初始位置
+**********************************************************/	
+	Gimbal_SetYawAngle(yaw_angle);
+	delay_ms(2);
+	Gimbal_SetPitchAngle(pitch_angle);   
+	
 /**********************************************************
 ***	WHILE循环
 **********************************************************/	
-	uint32_t counter = 0;
 	while(1)
 	{
-		// USART1接收测试
+		// USART1接收测试 - 接收到数据后返回数据并让电机转一圈
 		if(USART1_RxFlag)
 		{
+			// 返回接收到的数据
 			USART1_Printf("Received: %s\r\n", USART1_RxPacket);
-			USART1_RxFlag = 0;  // 清除接收标志
+			
+			// 角度累加360度（转一圈）
+			yaw_angle += 360.0f;
+			pitch_angle += 360.0f;
+			
+			// 发送电机控制命令
+			USART1_Printf("Rotating motors - New Position: Yaw: %.1f, Pitch: %.1f\r\n", yaw_angle, pitch_angle);
+			
+			// 控制电机转动
+			Gimbal_SetYawAngle(yaw_angle);
+			delay_ms(10);  // 短暂延时确保命令发送
+			Gimbal_SetPitchAngle(pitch_angle);
+			
+			USART1_SendString("Motors rotation command sent!\r\n");
+			
+			// 清除接收标志
+			USART1_RxFlag = 0;
 		}
 		
-		// 定时发送测试数据
-		counter++;
-		if(counter >= 1000000)  // 大约每秒发送一次（取决于系统时钟）
-		{
-			counter = 0;
-			USART1_Printf("Heartbeat: %d\r\n", (int)(counter/1000000));
-			USART1_SendString("System running...\r\n");
-		}
-		
-		delay_ms(1);  // 短暂延时
+		delay_ms(10);  // 主循环延时
 	}
 }

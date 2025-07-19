@@ -1,5 +1,5 @@
-#ifndef __BOARD_H
-#define __BOARD_H
+#ifndef __BSP_BOARD_H
+#define __BSP_BOARD_H
 
 #include "stm32f10x.h"
 

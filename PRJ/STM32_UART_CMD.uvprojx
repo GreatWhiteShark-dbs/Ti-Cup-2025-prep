@@ -405,36 +405,6 @@
           <GroupName>BSP</GroupName>
           <Files>
             <File>
-              <FileName>Emm_V5.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\Emm_V5.c</FilePath>
-            </File>
-            <File>
-              <FileName>Emm_V5.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\BSP\Emm_V5.h</FilePath>
-            </File>
-            <File>
-              <FileName>board.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\board.c</FilePath>
-            </File>
-            <File>
-              <FileName>board.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\BSP\board.h</FilePath>
-            </File>
-            <File>
-              <FileName>gimbal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\gimbal.c</FilePath>
-            </File>
-            <File>
-              <FileName>gimbal.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\BSP\gimbal.h</FilePath>
-            </File>
-            <File>
               <FileName>bsp_usart1.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp_usart1.c</FilePath>
@@ -453,6 +423,36 @@
               <FileName>bsp_usart3.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\BSP\bsp_usart3.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_board.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_board.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_board.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_board.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_emm_v5.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_emm_v5.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_emm_v5.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_emm_v5.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_gimbal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_gimbal.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_gimbal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_gimbal.h</FilePath>
             </File>
           </Files>
         </Group>

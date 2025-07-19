@@ -1,4 +1,4 @@
-#include "board.h"
+#include "bsp_board.h"
 
 /**
 	* @brief   配置NVIC控制器

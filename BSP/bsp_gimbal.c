@@ -1,4 +1,4 @@
-#include "gimbal.h"
+#include "bsp_gimbal.h"
 #include "delay.h"
 
 /* 云台状态变量 */

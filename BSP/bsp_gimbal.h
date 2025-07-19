@@ -1,8 +1,8 @@
-#ifndef __GIMBAL_H
-#define __GIMBAL_H
+#ifndef __BSP_GIMBAL_H
+#define __BSP_GIMBAL_H
 
 #include "stm32f10x.h"
-#include "Emm_V5.h"
+#include "bsp_emm_v5.h"
 
 /* 云台电机地址定义 */
 #define PITCH_MOTOR_ADDR    1    // 俯仰电机地址
