@@ -454,6 +454,16 @@
               <FileType>5</FileType>
               <FilePath>..\BSP\bsp_gimbal.h</FilePath>
             </File>
+            <File>
+              <FileName>bsp_car.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_car.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_car.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_car.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
