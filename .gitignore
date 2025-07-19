@@ -28,6 +28,7 @@
 
 # ----- IDE 项目配置-----
 *.uvoptx
+*.uvprojx
 *.uvprojx.dbs
 
 # ----- 其他工具生成文件 -----

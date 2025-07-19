@@ -1,5 +1,5 @@
-#ifndef __USART3_H
-#define __USART3_H
+#ifndef __BSP_USART3_H
+#define __BSP_USART3_H
 
 #include "board.h"
 #include "fifo.h"

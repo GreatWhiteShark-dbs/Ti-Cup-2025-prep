@@ -1,4 +1,4 @@
-#include "usart3.h"
+#include "bsp_usart3.h"
 
 __IO bool rxFrameFlag = false;
 __IO uint8_t rxCmd[FIFO_SIZE] = {0};
@@ -69,5 +69,3 @@ void usart3_SendByte(uint16_t data)
 		++t0; if(t0 > 8000)	{	return; }
 	}
 }
-
-
