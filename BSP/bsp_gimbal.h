@@ -5,8 +5,8 @@
 #include "bsp_emm_v5.h"
 
 /* 云台电机地址定义 */
-#define PITCH_MOTOR_ADDR    1    // 俯仰电机地址
-#define YAW_MOTOR_ADDR     2    // 偏航角电机地址
+#define PITCH_MOTOR_ADDR    5    // 俯仰电机地址
+#define YAW_MOTOR_ADDR      6    // 偏航角电机地址
 
 /* 云台速度和加速度定义 */
 #define GIMBAL_POS_SPEED      50   // 位置模式速度（RPM）

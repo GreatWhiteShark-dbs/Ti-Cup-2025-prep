@@ -89,32 +89,32 @@ int main(void)
 			{
 				// 小车速度模式控制
 				case 'a':  // 前进
-					Car_SetSpeed_Forward(100);
+					Car_SetSpeed_Forward(1000);
 					USART1_SendString("小车前进 (100 RPM)\r\n");
 					break;
 					
 				case 'b':  // 后退
-					Car_SetSpeed_Backward(100);
+					Car_SetSpeed_Backward(1000);
 					USART1_SendString("小车后退 (100 RPM)\r\n");
 					break;
 					
 				case 'c':  // 左转
-					Car_SetSpeed_TurnLeft(100);
+					Car_SetSpeed_TurnLeft(1000);
 					USART1_SendString("小车左转 (100 RPM)\r\n");
 					break;
 					
 				case 'd':  // 右转
-					Car_SetSpeed_TurnRight(100);
+					Car_SetSpeed_TurnRight(1000);
 					USART1_SendString("小车右转 (100 RPM)\r\n");
 					break;
 					
 				case 'e':  // 原地左旋
-					Car_SetSpeed_RotateLeft(80);
+					Car_SetSpeed_RotateLeft(800);
 					USART1_SendString("小车原地左旋 (80 RPM)\r\n");
 					break;
 					
 				case 'f':  // 原地右旋
-					Car_SetSpeed_RotateRight(80);
+					Car_SetSpeed_RotateRight(800);
 					USART1_SendString("小车原地右旋 (80 RPM)\r\n");
 					break;
 					
