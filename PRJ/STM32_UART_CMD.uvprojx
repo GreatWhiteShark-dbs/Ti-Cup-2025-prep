@@ -464,6 +464,41 @@
               <FileType>5</FileType>
               <FilePath>..\BSP\bsp_car.h</FilePath>
             </File>
+            <File>
+              <FileName>sw_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\sw_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>sw_i2c.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\sw_i2c.h</FilePath>
+            </File>
+            <File>
+              <FileName>gw_grayscale_sensor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\gw_grayscale_sensor.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_sw_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_sw_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_sw_i2c.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_sw_i2c.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_grayscale.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_grayscale.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_grayscale.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_grayscale.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

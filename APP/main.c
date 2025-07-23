@@ -5,6 +5,8 @@
 #include "bsp_emm_v5.h"
 #include "bsp_gimbal.h"
 #include "bsp_car.h"
+#include "bsp_sw_i2c.h"
+#include "bsp_grayscale.h"
 
 /**
 	*	@brief		MAIN函数
@@ -28,6 +30,20 @@ int main(void)
 **********************************************************/
 	Car_Init();
 	Gimbal_Init();
+
+/**********************************************************
+***	初始化软件IIC和八路寻迹传感器
+**********************************************************/
+	BSP_SW_I2C_Init();
+	
+	if(BSP_Grayscale_Init() == 0)
+	{
+		USART1_SendString("八路寻迹传感器初始化成功!\r\n");
+	}
+	else
+	{
+		USART1_SendString("警告: 八路寻迹传感器初始化失败!\r\n");
+	}
 
 /**********************************************************
 ***	蓝牙控制系统启动信息
@@ -57,6 +73,9 @@ int main(void)
 	USART1_SendString("  p - 获取小车位置信息\r\n");
 	USART1_SendString("  q - 获取云台状态信息\r\n");
 	USART1_SendString("  x - 重置小车位置坐标\r\n");
+	USART1_SendString("八路寻迹:\r\n");
+	USART1_SendString("  t - 读取八路寻迹传感器数据\r\n");
+	USART1_SendString("  m - 扫描IIC设备\r\n");
 	USART1_SendString("等待蓝牙命令...\r\n\r\n");
 
 /**********************************************************
@@ -89,43 +108,43 @@ int main(void)
 			{
 				// 小车速度模式控制
 				case 'a':  // 前进
-					Car_SetSpeed_Forward(1000);
+					Car_SetSpeed_Forward(100);
 					USART1_SendString("小车前进 (100 RPM)\r\n");
 					break;
 					
 				case 'b':  // 后退
-					Car_SetSpeed_Backward(1000);
+					Car_SetSpeed_Backward(100);
 					USART1_SendString("小车后退 (100 RPM)\r\n");
 					break;
 					
 				case 'c':  // 左转
-					Car_SetSpeed_TurnLeft(1000);
+					Car_SetSpeed_TurnLeft(100);
 					USART1_SendString("小车左转 (100 RPM)\r\n");
 					break;
 					
 				case 'd':  // 右转
-					Car_SetSpeed_TurnRight(1000);
+					Car_SetSpeed_TurnRight(100);
 					USART1_SendString("小车右转 (100 RPM)\r\n");
 					break;
 					
 				case 'e':  // 原地左旋
-					Car_SetSpeed_RotateLeft(800);
+					Car_SetSpeed_RotateLeft(80);
 					USART1_SendString("小车原地左旋 (80 RPM)\r\n");
 					break;
 					
 				case 'f':  // 原地右旋
-					Car_SetSpeed_RotateRight(800);
+					Car_SetSpeed_RotateRight(80);
 					USART1_SendString("小车原地右旋 (80 RPM)\r\n");
 					break;
 					
 				// 小车位置模式控制
 				case 'g':  // 前进100mm
-					Car_SetPos_MoveDistance(100.0f);
+					Car_SetPos_MoveDistance(1000.0f);
 					USART1_SendString("小车前进 100mm\r\n");
 					break;
 					
 				case 'h':  // 后退100mm
-					Car_SetPos_MoveDistance(-100.0f);
+					Car_SetPos_MoveDistance(-1000.0f);
 					USART1_SendString("小车后退 100mm\r\n");
 					break;
 					
@@ -207,7 +226,41 @@ int main(void)
 					Car_ResetPosition();
 					USART1_SendString("小车位置坐标已重置\r\n");
 					break;
+
+				case 't':  // 读取八路寻迹传感器数据
+				{
+					Grayscale_Data_t grayscale_data;
+					if(BSP_Grayscale_ReadAll(&grayscale_data) == 0)
+					{
+						BSP_Grayscale_PrintData(&grayscale_data);
+					}
+					else
+					{
+						USART1_SendString("读取八路寻迹传感器失败!\r\n");
+					}
+					break;
+				}
+				
+				case 'm':  // 扫描IIC设备
+				{
+					uint8_t scan_addr[128] = {0};
+					uint8_t count = BSP_SW_I2C_Scan(scan_addr);
 					
+					USART1_SendString("=== IIC设备扫描结果 ===\r\n");
+					USART1_Printf("发现 %d 个设备:\r\n", count);
+					
+					for(uint8_t i = 0; i < count; i++)
+					{
+						USART1_Printf("设备 %d: 地址 0x%02X\r\n", i+1, scan_addr[i]);
+					}
+					
+					if(count == 0)
+					{
+						USART1_SendString("未发现任何IIC设备\r\n");
+					}
+					break;
+				}
+				
 				default:
 					USART1_Printf("未知命令: %c\r\n", command);
 					USART1_SendString("请发送有效命令 (a-z)\r\n");
