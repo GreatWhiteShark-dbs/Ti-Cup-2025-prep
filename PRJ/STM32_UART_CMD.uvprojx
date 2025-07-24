@@ -465,21 +465,6 @@
               <FilePath>..\BSP\bsp_car.h</FilePath>
             </File>
             <File>
-              <FileName>sw_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\sw_i2c.c</FilePath>
-            </File>
-            <File>
-              <FileName>sw_i2c.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\BSP\sw_i2c.h</FilePath>
-            </File>
-            <File>
-              <FileName>gw_grayscale_sensor.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\BSP\gw_grayscale_sensor.h</FilePath>
-            </File>
-            <File>
               <FileName>bsp_sw_i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp_sw_i2c.c</FilePath>
@@ -498,6 +483,36 @@
               <FileName>bsp_grayscale.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\BSP\bsp_grayscale.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_imu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_imu.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_usart2.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart2.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_usart2.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_imu_protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_imu_protocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_imu_protocol.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_imu_protocol.h</FilePath>
             </File>
           </Files>
         </Group>

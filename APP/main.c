@@ -7,6 +7,7 @@
 #include "bsp_car.h"
 #include "bsp_sw_i2c.h"
 #include "bsp_grayscale.h"
+#include "bsp_imu.h"
 
 /**
 	*	@brief		MAIN函数
@@ -46,6 +47,25 @@ int main(void)
 	}
 
 /**********************************************************
+***	初始化九轴传感器
+**********************************************************/
+	BSP_IMU_Init();
+	USART1_SendString("九轴传感器初始化完成\r\n");
+	
+	// 等待九轴传感器稳定
+	delay_ms(1000);
+	
+	// 检查九轴传感器连接状态
+	if(BSP_IMU_IsConnected())
+	{
+		USART1_SendString("九轴传感器连接正常!\r\n");
+	}
+	else
+	{
+		USART1_SendString("警告: 九轴传感器连接异常!\r\n");
+	}
+
+/**********************************************************
 ***	蓝牙控制系统启动信息
 **********************************************************/
 	USART1_SendString("=== 蓝牙控制系统启动 ===\r\n");
@@ -73,9 +93,18 @@ int main(void)
 	USART1_SendString("  p - 获取小车位置信息\r\n");
 	USART1_SendString("  q - 获取云台状态信息\r\n");
 	USART1_SendString("  x - 重置小车位置坐标\r\n");
-	USART1_SendString("八路寻迹:\r\n");
+	USART1_SendString("传感器控制:\r\n");
 	USART1_SendString("  t - 读取八路寻迹传感器数据\r\n");
 	USART1_SendString("  m - 扫描IIC设备\r\n");
+	USART1_SendString("九轴传感器:\r\n");
+	USART1_SendString("  1 - 读取九轴传感器完整数据\r\n");
+	USART1_SendString("  2 - 读取加速度数据\r\n");
+	USART1_SendString("  3 - 读取角速度数据\r\n");
+	USART1_SendString("  4 - 读取欧拉角数据\r\n");
+	USART1_SendString("  5 - 读取四元数数据\r\n");
+	USART1_SendString("  6 - 读取GPS位置数据\r\n");
+	USART1_SendString("  7 - 检查九轴传感器连接状态\r\n");
+	USART1_SendString("  8 - 九轴传感器实时监控 (开/关)\r\n");
 	USART1_SendString("等待蓝牙命令...\r\n\r\n");
 
 /**********************************************************
@@ -83,6 +112,13 @@ int main(void)
 **********************************************************/
 	static float gimbal_yaw = 0.0f;
 	static float gimbal_pitch = 0.0f;
+	
+/**********************************************************
+***	九轴传感器相关变量
+**********************************************************/
+	static bool imu_monitor_enabled = false;  // 九轴传感器实时监控开关
+	static uint32_t imu_monitor_counter = 0;  // 监控计数器
+	static uint32_t last_imu_print_time = 0;  // 上次打印时间
 	
 /**********************************************************
 ***	设置初始位置
@@ -97,6 +133,28 @@ int main(void)
 **********************************************************/	
 	while(1)
 	{
+		// 处理九轴传感器数据
+        BSP_IMU_ProcessData();
+		
+		// 九轴传感器实时监控
+		if(imu_monitor_enabled)
+		{
+			imu_monitor_counter++;
+			// 每500ms打印一次数据 (假设主循环10ms一次)
+			if(imu_monitor_counter >= 50)
+			{
+				IMU_Data_t imu_data;
+				if(BSP_IMU_GetData(&imu_data))
+				{
+					USART1_Printf("[监控] Pitch:%.1f° Roll:%.1f° Yaw:%.1f° | ", 
+								 imu_data.pitch, imu_data.roll, imu_data.yaw);
+					USART1_Printf("Acc:%.2f,%.2f,%.2f m/s²\r\n", 
+								 imu_data.accel_x, imu_data.accel_y, imu_data.accel_z);
+				}
+				imu_monitor_counter = 0;
+			}
+		}
+
 		// USART1蓝牙命令处理
 		if(USART1_RxFlag)
 		{
@@ -261,9 +319,170 @@ int main(void)
 					break;
 				}
 				
+				// 九轴传感器命令
+				case '1':  // 读取九轴传感器完整数据
+				{
+					BSP_IMU_PrintData();
+					break;
+				}
+				
+				case '2':  // 读取加速度数据
+				{
+					IMU_Data_t imu_data;
+					if(BSP_IMU_GetData(&imu_data))
+					{
+						USART1_SendString("=== 加速度数据 ===\r\n");
+						USART1_Printf("X轴: %.3f m/s²\r\n", imu_data.accel_x);
+						USART1_Printf("Y轴: %.3f m/s²\r\n", imu_data.accel_y);
+						USART1_Printf("Z轴: %.3f m/s²\r\n", imu_data.accel_z);
+						USART1_Printf("合成: %.3f m/s²\r\n", 
+									 sqrtf(imu_data.accel_x*imu_data.accel_x + 
+										   imu_data.accel_y*imu_data.accel_y + 
+										   imu_data.accel_z*imu_data.accel_z));
+					}
+					else
+					{
+						USART1_SendString("九轴传感器无有效数据\r\n");
+					}
+					break;
+				}
+				
+				case '3':  // 读取角速度数据
+				{
+					IMU_Data_t imu_data;
+					if(BSP_IMU_GetData(&imu_data))
+					{
+						USART1_SendString("=== 角速度数据 ===\r\n");
+						USART1_Printf("X轴: %.3f °/s\r\n", imu_data.gyro_x);
+						USART1_Printf("Y轴: %.3f °/s\r\n", imu_data.gyro_y);
+						USART1_Printf("Z轴: %.3f °/s\r\n", imu_data.gyro_z);
+					}
+					else
+					{
+						USART1_SendString("九轴传感器无有效数据\r\n");
+					}
+					break;
+				}
+				
+				case '4':  // 读取欧拉角数据
+				{
+					IMU_Data_t imu_data;
+					if(BSP_IMU_GetData(&imu_data))
+					{
+						USART1_SendString("=== 欧拉角数据 ===\r\n");
+						USART1_Printf("俯仰角(Pitch): %.2f°\r\n", imu_data.pitch);
+						USART1_Printf("横滚角(Roll):  %.2f°\r\n", imu_data.roll);
+						USART1_Printf("偏航角(Yaw):   %.2f°\r\n", imu_data.yaw);
+					}
+					else
+					{
+						USART1_SendString("九轴传感器无有效数据\r\n");
+					}
+					break;
+				}
+				
+				case '5':  // 读取四元数数据
+				{
+					IMU_Data_t imu_data;
+					if(BSP_IMU_GetData(&imu_data))
+					{
+						USART1_SendString("=== 四元数数据 ===\r\n");
+						USART1_Printf("W: %.4f\r\n", imu_data.quaternion_w);
+						USART1_Printf("X: %.4f\r\n", imu_data.quaternion_x);
+						USART1_Printf("Y: %.4f\r\n", imu_data.quaternion_y);
+						USART1_Printf("Z: %.4f\r\n", imu_data.quaternion_z);
+						USART1_Printf("模长: %.4f\r\n", 
+									 sqrtf(imu_data.quaternion_w*imu_data.quaternion_w + 
+										   imu_data.quaternion_x*imu_data.quaternion_x + 
+										   imu_data.quaternion_y*imu_data.quaternion_y + 
+										   imu_data.quaternion_z*imu_data.quaternion_z));
+					}
+					else
+					{
+						USART1_SendString("九轴传感器无有效数据\r\n");
+					}
+					break;
+				}
+				
+				case '6':  // 读取GPS位置数据
+				{
+					IMU_Data_t imu_data;
+					if(BSP_IMU_GetData(&imu_data))
+					{
+						USART1_SendString("=== GPS位置数据 ===\r\n");
+						if(imu_data.latitude != 0.0 || imu_data.longitude != 0.0)
+						{
+							USART1_Printf("纬度: %.7f°\r\n", imu_data.latitude);
+							USART1_Printf("经度: %.7f°\r\n", imu_data.longitude);
+							USART1_Printf("海拔: %.2f m\r\n", imu_data.altitude);
+							USART1_Printf("北向速度: %.3f m/s\r\n", imu_data.vel_north);
+							USART1_Printf("东向速度: %.3f m/s\r\n", imu_data.vel_east);
+							USART1_Printf("垂直速度: %.3f m/s\r\n", imu_data.vel_down);
+						}
+						else
+						{
+							USART1_SendString("GPS信号无效或未定位\r\n");
+						}
+					}
+					else
+					{
+						USART1_SendString("九轴传感器无有效数据\r\n");
+					}
+					break;
+				}
+				
+				case '7':  // 检查九轴传感器连接状态
+				{
+					if(BSP_IMU_IsConnected())
+					{
+						USART1_SendString("九轴传感器: 连接正常 ✓\r\n");
+						
+						// 显示详细状态信息
+						IMU_Data_t imu_data;
+						if(BSP_IMU_GetData(&imu_data))
+						{
+							USART1_Printf("数据时间戳: %u us\r\n", imu_data.data_ready_timestamp);
+							USART1_SendString("数据状态: 有效\r\n");
+						}
+						else
+						{
+							USART1_SendString("数据状态: 暂无新数据\r\n");
+						}
+					}
+					else
+					{
+						USART1_SendString("九轴传感器: 连接异常 ✗\r\n");
+						USART1_SendString("请检查:\r\n");
+						USART1_SendString("1. 硬件连接 (PA2-TX, PA3-RX)\r\n");
+						USART1_SendString("2. 电源供电 (3.3V/5V)\r\n");
+						USART1_SendString("3. 波特率设置 (460800)\r\n");
+					}
+					break;
+				}
+				
+				case '8':  // 九轴传感器实时监控开关
+				{
+					imu_monitor_enabled = !imu_monitor_enabled;
+					imu_monitor_counter = 0;
+					
+					if(imu_monitor_enabled)
+					{
+						USART1_SendString("九轴传感器实时监控: 已开启\r\n");
+						USART1_SendString("将每500ms显示姿态和加速度数据\r\n");
+						USART1_SendString("再次发送 '8' 命令可关闭监控\r\n");
+					}
+					else
+					{
+						USART1_SendString("九轴传感器实时监控: 已关闭\r\n");
+					}
+					break;
+				}
+				
 				default:
 					USART1_Printf("未知命令: %c\r\n", command);
-					USART1_SendString("请发送有效命令 (a-z)\r\n");
+					USART1_SendString("请发送有效命令\r\n");
+					USART1_SendString("小车: a-j,s | 云台: u,n,l,r,z | 状态: p,q,x\r\n");
+					USART1_SendString("传感器: t,m | 九轴: 1-8\r\n");
 					break;
 			}
 			
