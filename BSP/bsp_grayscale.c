@@ -26,7 +26,7 @@ int BSP_Grayscale_Init(void)
         return -1;
     }
     
-    // 尝试连接传感器 - ping测试
+    // 检测传感器连接状态
     while(recv_value != GW_GRAY_PING_OK && retry_count < 10)
     {
         sw_i2c_mem_read(i2c_interface, GW_GRAY_ADDR_DEF << 1, GW_GRAY_PING, &recv_value, 1);

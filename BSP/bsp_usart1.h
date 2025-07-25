@@ -8,7 +8,7 @@
 extern char USART1_RxPacket[];
 extern uint8_t USART1_RxFlag;
 
-// 新增USART1专用的接收变量（参考USART3）
+// USART1接收相关变量
 extern __IO bool usart1_rxFrameFlag;
 extern __IO uint8_t usart1_rxCmd[FIFO_SIZE];
 extern __IO uint8_t usart1_rxCount;

@@ -69,7 +69,7 @@ void USART1_Printf(char *format, ...)
 }
 
 /**
-	* @brief   USART1中断函数 - 参考USART3实现
+	* @brief   USART1中断处理函数
 	* @param   无
 	* @retval  无
 	*/

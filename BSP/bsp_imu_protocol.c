@@ -1,11 +1,10 @@
 /*
 * 根据不同的平台和不同的驱动包含不同的头文件
 **************************************************/
-//#include "xxx.h"
 #include <stddef.h>
 #include "bsp_imu_protocol.h"
 
-// 添加类型定义
+// IMU协议相关类型定义
 typedef uint8_t u8;
 
 u8 g_uart_rx_buf[130];
