@@ -84,27 +84,27 @@ int main(void)
 	USART1_SendString("  j - 右转90度 (位置模式)\r\n");
 	USART1_SendString("  s - 停止\r\n");
 	USART1_SendString("云台控制:\r\n");
-	USART1_SendString("  u - 云台上仰45度\r\n");
-	USART1_SendString("  n - 云台下俯45度\r\n");
-	USART1_SendString("  l - 云台左转45度\r\n");
-	USART1_SendString("  r - 云台右转45度\r\n");
-	USART1_SendString("  z - 云台归零位置\r\n");
+	USART1_SendString("  k - 云台上仰45度\r\n");
+	USART1_SendString("  l - 云台下俯45度\r\n");
+	USART1_SendString("  n - 云台左转45度\r\n");
+	USART1_SendString("  m - 云台右转45度\r\n");
+	USART1_SendString("  o - 云台归零位置\r\n");
 	USART1_SendString("系统状态:\r\n");
-	USART1_SendString("  p - 获取小车位置信息\r\n");
-	USART1_SendString("  q - 获取云台状态信息\r\n");
-	USART1_SendString("  x - 重置小车位置坐标\r\n");
+	USART1_SendString("  A - 获取小车位置信息\r\n");
+	USART1_SendString("  B - 获取云台状态信息\r\n");
+	USART1_SendString("  C - 重置小车位置坐标\r\n");
 	USART1_SendString("八路寻迹传感器:\r\n");
-	USART1_SendString("  t - 读取八路寻迹传感器数据\r\n");
-	USART1_SendString("  m - 扫描IIC设备\r\n");
+	USART1_SendString("  D - 读取八路寻迹传感器数据\r\n");
+	USART1_SendString("  E - 扫描IIC设备\r\n");
 	USART1_SendString("九轴传感器:\r\n");
-	USART1_SendString("  1 - 读取九轴传感器完整数据\r\n");
-	USART1_SendString("  2 - 读取加速度数据\r\n");
-	USART1_SendString("  3 - 读取角速度数据\r\n");
-	USART1_SendString("  4 - 读取欧拉角数据\r\n");
-	USART1_SendString("  5 - 读取四元数数据\r\n");
-	USART1_SendString("  6 - 读取GPS位置数据\r\n");
-	USART1_SendString("  7 - 检查九轴传感器连接状态\r\n");
-	USART1_SendString("  8 - 九轴传感器实时监控 (开/关)\r\n");
+	USART1_SendString("  F - 读取九轴传感器完整数据\r\n");
+	USART1_SendString("  G - 读取加速度数据\r\n");
+	USART1_SendString("  H - 读取角速度数据\r\n");
+	USART1_SendString("  I - 读取欧拉角数据\r\n");
+	USART1_SendString("  J - 读取四元数数据\r\n");
+	USART1_SendString("  K - 读取GPS位置数据\r\n");
+	USART1_SendString("  L - 检查九轴传感器连接状态\r\n");
+	USART1_SendString("  N - 九轴传感器实时监控 (开/关)\r\n");
 	USART1_SendString("等待蓝牙命令...\r\n\r\n");
 
 /**********************************************************
@@ -222,31 +222,31 @@ int main(void)
 					break;
 					
 				// 云台控制
-				case 'u':  // 上仰45度
+				case 'k':  // 上仰45度
 					gimbal_pitch += 45.0f;
 					Gimbal_SetPitchAngle(gimbal_pitch);
 					USART1_Printf("云台上仰45度，当前俯仰角: %.1f度\r\n", gimbal_pitch);
 					break;
 					
-				case 'n':  // 下俯45度
+				case 'l':  // 下俯45度
 					gimbal_pitch -= 45.0f;
 					Gimbal_SetPitchAngle(gimbal_pitch);
 					USART1_Printf("云台下俯45度，当前俯仰角: %.1f度\r\n", gimbal_pitch);
 					break;
 					
-				case 'l':  // 左转45度
+				case 'n':  // 左转45度
 					gimbal_yaw -= 45.0f;
 					Gimbal_SetYawAngle(gimbal_yaw);
 					USART1_Printf("云台左转45度，当前偏航角: %.1f度\r\n", gimbal_yaw);
 					break;
 					
-				case 'r':  // 右转45度
+				case 'm':  // 右转45度
 					gimbal_yaw += 45.0f;
 					Gimbal_SetYawAngle(gimbal_yaw);
 					USART1_Printf("云台右转45度，当前偏航角: %.1f度\r\n", gimbal_yaw);
 					break;
 					
-				case 'z':  // 云台归零
+				case 'o':  // 云台归零
 					gimbal_yaw = 0.0f;
 					gimbal_pitch = 0.0f;
 					Gimbal_SetYawAngle(gimbal_yaw);
@@ -256,7 +256,7 @@ int main(void)
 					break;
 					
 				// 状态查询
-				case 'p':  // 获取小车位置
+				case 'A':  // 获取小车位置
 				{
 					Car_State_t car_state = Car_GetState();
 					USART1_SendString("=== 小车状态信息 ===\r\n");
@@ -269,7 +269,7 @@ int main(void)
 					break;
 				}
 				
-				case 'q':  // 获取云台状态
+				case 'B':  // 获取云台状态
 				{
 					Gimbal_State_t gimbal_state = Gimbal_GetState();
 					USART1_SendString("=== 云台状态信息 ===\r\n");
@@ -280,12 +280,12 @@ int main(void)
 					break;
 				}
 				
-				case 'x':  // 重置小车位置
+				case 'C':  // 重置小车位置
 					Car_ResetPosition();
 					USART1_SendString("小车位置坐标已重置\r\n");
 					break;
 
-				case 't':  // 读取八路寻迹传感器数据
+				case 'D':  // 读取八路寻迹传感器数据
 				{
 					Grayscale_Data_t grayscale_data;
 					if(BSP_Grayscale_ReadAll(&grayscale_data) == 0)
@@ -299,7 +299,7 @@ int main(void)
 					break;
 				}
 				
-				case 'm':  // 扫描IIC设备
+				case 'E':  // 扫描IIC设备
 				{
 					uint8_t scan_addr[128] = {0};
 					uint8_t count = BSP_SW_I2C_Scan(scan_addr);
@@ -320,13 +320,13 @@ int main(void)
 				}
 				
 				// 九轴传感器命令
-				case '1':  // 读取九轴传感器完整数据
+				case 'F':  // 读取九轴传感器完整数据
 				{
 					BSP_IMU_PrintData();
 					break;
 				}
 				
-				case '2':  // 读取加速度数据
+				case 'G':  // 读取加速度数据
 				{
 					IMU_Data_t imu_data;
 					if(BSP_IMU_GetData(&imu_data))
@@ -347,7 +347,7 @@ int main(void)
 					break;
 				}
 				
-				case '3':  // 读取角速度数据
+				case 'H':  // 读取角速度数据
 				{
 					IMU_Data_t imu_data;
 					if(BSP_IMU_GetData(&imu_data))
@@ -364,7 +364,7 @@ int main(void)
 					break;
 				}
 				
-				case '4':  // 读取欧拉角数据
+				case 'I':  // 读取欧拉角数据
 				{
 					IMU_Data_t imu_data;
 					if(BSP_IMU_GetData(&imu_data))
@@ -381,7 +381,7 @@ int main(void)
 					break;
 				}
 				
-				case '5':  // 读取四元数数据
+				case 'J':  // 读取四元数数据
 				{
 					IMU_Data_t imu_data;
 					if(BSP_IMU_GetData(&imu_data))
@@ -404,7 +404,7 @@ int main(void)
 					break;
 				}
 				
-				case '6':  // 读取GPS位置数据
+				case 'K':  // 读取GPS位置数据
 				{
 					IMU_Data_t imu_data;
 					if(BSP_IMU_GetData(&imu_data))
@@ -431,7 +431,7 @@ int main(void)
 					break;
 				}
 				
-				case '7':  // 检查九轴传感器连接状态
+				case 'L':  // 检查九轴传感器连接状态
 				{
 					if(BSP_IMU_IsConnected())
 					{
@@ -460,7 +460,7 @@ int main(void)
 					break;
 				}
 				
-				case '8':  // 九轴传感器实时监控开关
+				case 'N':  // 九轴传感器实时监控开关
 				{
 					imu_monitor_enabled = !imu_monitor_enabled;
 					imu_monitor_counter = 0;
