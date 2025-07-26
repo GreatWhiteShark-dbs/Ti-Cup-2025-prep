@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\APP;..\BSP;..\CMSIS;..\LIB\STM32F10x_StdPeriph_Lib_V3.5.0\inc;..\DRIVERS</IncludePath>
+              <IncludePath>..\APP;..\BSP;..\CMSIS;..\LIB\STM32F10x_StdPeriph_Lib_V3.5.0\inc;..\DRIVERS;..\BUSINESS</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -445,26 +445,6 @@
               <FilePath>..\BSP\bsp_emm_v5.h</FilePath>
             </File>
             <File>
-              <FileName>bsp_gimbal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\bsp_gimbal.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_gimbal.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\BSP\bsp_gimbal.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_car.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\bsp_car.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_car.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\BSP\bsp_car.h</FilePath>
-            </File>
-            <File>
               <FileName>bsp_sw_i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp_sw_i2c.c</FilePath>
@@ -513,6 +493,26 @@
               <FileName>bsp_imu_protocol.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\BSP\bsp_imu_protocol.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_car.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_car.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_car.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_car.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_gimbal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_gimbal.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_gimbal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_gimbal.h</FilePath>
             </File>
           </Files>
         </Group>

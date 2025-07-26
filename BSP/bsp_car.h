@@ -15,7 +15,7 @@
 #define WHEEL_DIAMETER           85.0f   // 轮子直径（mm）
 #define WHEEL_CIRCUMFERENCE      267.04f // 轮子周长（mm）π*d = 3.14159*85
 #define WHEELBASE_LENGTH         115.0f  // 轴距（前后轮中心间距，mm）
-#define WHEELBASE_WIDTH          181.6f  // 轮距（左右轮中心间距，mm）
+#define WHEELBASE_WIDTH          185.0f  // 轮距（左右轮中心间距，mm）
 #define PULSES_PER_REVOLUTION    3200    // 每圈脉冲数（16细分）
 
 /* 小车速度和加速度定义 */

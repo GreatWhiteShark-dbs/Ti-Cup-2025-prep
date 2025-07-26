@@ -93,7 +93,7 @@ int main(void)
 	USART1_SendString("  p - 获取小车位置信息\r\n");
 	USART1_SendString("  q - 获取云台状态信息\r\n");
 	USART1_SendString("  x - 重置小车位置坐标\r\n");
-	USART1_SendString("传感器控制:\r\n");
+	USART1_SendString("八路寻迹传感器:\r\n");
 	USART1_SendString("  t - 读取八路寻迹传感器数据\r\n");
 	USART1_SendString("  m - 扫描IIC设备\r\n");
 	USART1_SendString("九轴传感器:\r\n");
