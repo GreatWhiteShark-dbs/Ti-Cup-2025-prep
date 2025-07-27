@@ -514,6 +514,16 @@
               <FileType>5</FileType>
               <FilePath>..\BSP\bsp_gimbal.h</FilePath>
             </File>
+            <File>
+              <FileName>bsp_packet.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_packet.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_packet.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\bsp_packet.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

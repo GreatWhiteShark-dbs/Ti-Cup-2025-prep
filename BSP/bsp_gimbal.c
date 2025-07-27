@@ -1,8 +1,12 @@
 #include "bsp_gimbal.h"
 #include "delay.h"
+#include <math.h>
 
 /* 云台状态变量 */
 static Gimbal_State_t gimbal_state = {0};
+
+/* 轨迹同步状态变量 */
+static Trajectory_Sync_State_t trajectory_sync_state = TRAJECTORY_SYNC_STOPPED;
 
 /**
   * @brief  云台初始化
@@ -33,10 +37,21 @@ void Gimbal_Init(void)
 void Gimbal_SetPitchAngle(float angle)
 {
     uint32_t pulses;
-    // 角度转脉冲数（假设16细分，减速比1:1，则一圈3200脉冲）
-    pulses = (uint32_t)(angle * 3200.0f / 360.0f);
+    uint8_t dir;
     
-    Emm_V5_Pos_Control(PITCH_MOTOR_ADDR, 0, GIMBAL_POS_SPEED, GIMBAL_POS_ACCEL, pulses, true, false);
+    // 处理负角度
+    if(angle >= 0)
+    {
+        dir = 0;  // 正方向
+        pulses = (uint32_t)(angle * 3200.0f / 360.0f);
+    }
+    else
+    {
+        dir = 1;  // 反方向
+        pulses = (uint32_t)((-angle) * 3200.0f / 360.0f);
+    }
+    
+    Emm_V5_Pos_Control(PITCH_MOTOR_ADDR, dir, GIMBAL_POS_SPEED, GIMBAL_POS_ACCEL, pulses, true, false);
     gimbal_state.pitch_angle = angle;
 }
 
@@ -48,9 +63,21 @@ void Gimbal_SetPitchAngle(float angle)
 void Gimbal_SetYawAngle(float angle)
 {
     uint32_t pulses;
-    pulses = (uint32_t)(angle * 3200.0f / 360.0f);
+    uint8_t dir;
     
-    Emm_V5_Pos_Control(YAW_MOTOR_ADDR, 0, GIMBAL_POS_SPEED, GIMBAL_POS_ACCEL, pulses, true, false);
+    // 处理负角度
+    if(angle >= 0)
+    {
+        dir = 0;  // 正方向
+        pulses = (uint32_t)(angle * 3200.0f / 360.0f);
+    }
+    else
+    {
+        dir = 1;  // 反方向
+        pulses = (uint32_t)((-angle) * 3200.0f / 360.0f);
+    }
+    
+    Emm_V5_Pos_Control(YAW_MOTOR_ADDR, dir, GIMBAL_POS_SPEED, GIMBAL_POS_ACCEL, pulses, true, false);
     gimbal_state.yaw_angle = angle;
 }
 
@@ -99,3 +126,4 @@ Gimbal_State_t Gimbal_GetState(void)
 {
     return gimbal_state;
 }
+
