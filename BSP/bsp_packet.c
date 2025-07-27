@@ -163,7 +163,7 @@ Packet_Parse_Result_t Packet_ParseGimbalControl(uint8_t *data, uint8_t length, G
     memcpy(&packet->yaw_angle, &data[7], sizeof(float));
     packet->checksum = data[11];
     
-    // 验证校验和
+    // 验证校验
     uint8_t calculated_checksum = Packet_CalculateChecksum(data + 2, 9);
     if (calculated_checksum != packet->checksum) {
         return PACKET_PARSE_ERROR_CHECKSUM;
@@ -182,7 +182,7 @@ void Packet_ProcessGimbalControl(Gimbal_Control_Packet_t packet)
     switch (packet.command) {
         case GIMBAL_CMD_SET_ANGLE:
             Gimbal_SetPitchAngle(packet.pitch_angle);
-            delay_ms(5);
+            delay_ms(2);
             Gimbal_SetYawAngle(packet.yaw_angle);
             USART1_Printf("云台设置角度: 俯仰%.1f°, 偏航%.1f°\r\n", 
                          packet.pitch_angle, packet.yaw_angle);

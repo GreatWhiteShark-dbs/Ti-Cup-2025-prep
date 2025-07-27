@@ -233,7 +233,7 @@ int main(void)
 						
 					// 云台控制
 					case 'k':  // 上仰45度
-						gimbal_pitch += 45.0f;
+						gimbal_pitch += 0.1f;
 						Gimbal_SetPitchAngle(gimbal_pitch);
 						USART1_Printf("云台上仰45度，当前俯仰角: %.1f度\r\n", gimbal_pitch);
 						break;
@@ -500,10 +500,11 @@ int main(void)
 						USART1_SendString("传感器: t,m | 九轴: 1-8\r\n");
 						break;
 				}
-				
 				// 清除接收标志
 				USART1_RxFlag = 0;
 			}
+			// 清除接收标志
+			USART1_RxFlag = 0;
 		}
 		
 		delay_ms(10);  // 主循环延时

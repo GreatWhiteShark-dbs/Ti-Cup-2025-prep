@@ -27,7 +27,7 @@ class TrajectoryTool:
         self.drawing = False
         self.last_point = None
         self.last_send_time = 0
-        self.send_interval = 0.1  # 0.1秒发送间隔
+        self.send_interval = 0.1  # 0.3秒发送间隔（降低发送速度）
         
         # 接收轨迹点
         self.received_points = deque(maxlen=10000)
@@ -138,7 +138,7 @@ class TrajectoryTool:
             
             self.serial_port.write(data)
             
-            print(f"发送轨迹点: ({x}, {y}) -> 偏航角: {yaw_angle:.1f}°, 校验和: {checksum}")
+            print(f"发送轨迹点: ({x}, {y}) -> 俯仰角: {pitch_angle:.1f}°, 偏航角: {yaw_angle:.1f}°, 校验和: {checksum}")
             
         except Exception as e:
             print(f"发送数据失败: {e}")

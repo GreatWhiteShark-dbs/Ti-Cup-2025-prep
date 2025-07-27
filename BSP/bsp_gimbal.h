@@ -9,9 +9,9 @@
 #define YAW_MOTOR_ADDR      6    // 偏航角电机地址
 
 /* 云台速度和加速度定义 */
-#define GIMBAL_POS_SPEED      50   // 位置模式速度（RPM）
-#define GIMBAL_POS_ACCEL     2      // 位置模式加速度
-#define GIMBAL_VEL_ACCEL     2      // 速度模式加速度
+#define GIMBAL_POS_SPEED      1   // 位置模式速度（RPM）
+#define GIMBAL_POS_ACCEL     200      // 位置模式加速度
+#define GIMBAL_VEL_ACCEL     200      // 速度模式加速度
 
 /* 云台状态结构体 */
 typedef struct {

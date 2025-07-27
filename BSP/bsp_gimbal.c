@@ -36,6 +36,7 @@ void Gimbal_Init(void)
   */
 void Gimbal_SetPitchAngle(float angle)
 {
+    
     uint32_t pulses;
     uint8_t dir;
     
@@ -62,6 +63,7 @@ void Gimbal_SetPitchAngle(float angle)
   */
 void Gimbal_SetYawAngle(float angle)
 {
+    
     uint32_t pulses;
     uint8_t dir;
     
