@@ -19,7 +19,7 @@
 #define PULSES_PER_REVOLUTION    3200    // 每圈脉冲数（16细分）
 
 /* 小车速度和加速度定义 */
-#define CAR_POS_SPEED            1000     // 位置模式速度（RPM）
+#define CAR_POS_SPEED            100     // 位置模式速度（RPM）
 #define CAR_POS_ACCEL            1       // 位置模式加速度
 #define CAR_VEL_ACCEL            2       // 速度模式加速度
 

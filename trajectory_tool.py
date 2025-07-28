@@ -296,6 +296,48 @@ class TrajectoryTool:
             cv2.putText(canvas, text, (10, y_offset + i * 25), 
                        cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, 1)
     
+    def send_circle_trajectory(self, duration=10.0):
+        """发送圆形轨迹点
+        Args:
+            duration: 画圆总时长(秒)
+        """
+        if not self.serial_port or not self.serial_port.is_open:
+            print("串口未连接，无法发送圆形轨迹")
+            return
+    
+        center_x, center_y = 500, 500  # 圆心坐标(0-1000范围)
+        radius = 30  # 半径缩小一半(原400)
+        
+        # 发送第一个点(圆心右侧起始点)
+        first_x = center_x + radius
+        first_y = center_y
+        self.send_trajectory_point(int(first_x), int(first_y))
+        print("已发送起始点，等待5秒...")
+        time.sleep(5)  # 等待5秒
+        
+        start_time = time.time()
+        points_sent = 1  # 已发送1个点
+        
+        print(f"开始绘制圆形轨迹，总时长: {duration}秒")
+        
+        while time.time() - start_time < duration:
+            # 计算当前角度(0-2π)
+            progress = (time.time() - start_time) / duration
+            angle = 2 * np.pi * progress
+            
+            # 计算圆上的点坐标
+            x = center_x + radius * np.cos(angle)
+            y = center_y + radius * np.sin(angle)
+            
+            # 发送轨迹点
+            self.send_trajectory_point(int(x), int(y))
+            points_sent += 1
+            
+            # 控制发送频率(约20Hz)
+            time.sleep(0.05)
+        
+        print(f"圆形轨迹发送完成，共发送{points_sent}个点")
+
     def run(self):
         """主运行函数"""
         # 初始化串口
@@ -316,6 +358,7 @@ class TrajectoryTool:
         print("操作说明:")
         print("- 鼠标左键拖拽: 绘制并发送轨迹")
         print("- 按 'c': 清空画布")
+        print("- 按 'o': 发送圆形轨迹(5秒)")  # 新增说明
         print("- 按 'r': 切换到接收模式")
         print("- 按 's': 切换到发送模式")
         print("- 按 'x': 切换到指令模式")
@@ -356,6 +399,8 @@ class TrajectoryTool:
             key = cv2.waitKey(1) & 0xFF
             if key == ord('q'):
                 break
+            elif key == ord('o') and not self.command_mode:  # 新增圆形轨迹发送
+                self.send_circle_trajectory()
             elif key == ord('c') and not self.command_mode:
                 self.clear_canvas()
                 print("画布已清空")

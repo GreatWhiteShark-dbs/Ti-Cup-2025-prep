@@ -56,14 +56,23 @@ int main(void)
 	// 等待九轴传感器稳定
 	delay_ms(1000);
 	
+	// 尝试接收数据一段时间后再检查连接
+	uint32_t timeout = 0;
+	while(timeout < 100 && !BSP_IMU_IsConnected())  // 最多等待1秒
+	{
+	    BSP_IMU_ProcessData();  // 处理可能的传感器数据
+	    delay_ms(10);
+	    timeout++;
+	}
+	
 	// 检查九轴传感器连接状态
 	if(BSP_IMU_IsConnected())
 	{
-		USART1_SendString("九轴传感器连接正常!\r\n");
+	    USART1_SendString("九轴传感器连接正常!\r\n");
 	}
 	else
 	{
-		USART1_SendString("警告: 九轴传感器连接异常!\r\n");
+	    USART1_SendString("警告: 九轴传感器连接异常!\r\n");
 	}
 
 /**********************************************************
@@ -84,12 +93,6 @@ int main(void)
 	USART1_SendString("  i - 左转90度 (位置模式)\r\n");
 	USART1_SendString("  j - 右转90度 (位置模式)\r\n");
 	USART1_SendString("  s - 停止\r\n");
-	USART1_SendString("云台控制:\r\n");
-	USART1_SendString("  k - 云台上仰45度\r\n");
-	USART1_SendString("  l - 云台下俯45度\r\n");
-	USART1_SendString("  n - 云台左转45度\r\n");
-	USART1_SendString("  m - 云台右转45度\r\n");
-	USART1_SendString("  o - 云台归零位置\r\n");
 	USART1_SendString("轨迹同步:\r\n");
 	USART1_SendString("  T - 开始轨迹同步\r\n");
 	USART1_SendString("  S - 结束轨迹同步\r\n");
@@ -138,7 +141,7 @@ int main(void)
 	while(1)
 	{
 		// 处理九轴传感器数据
-        BSP_IMU_ProcessData();
+    BSP_IMU_ProcessData();
 		
 		// 九轴传感器实时监控
 		if(imu_monitor_enabled)
@@ -231,40 +234,6 @@ int main(void)
 						USART1_SendString("小车停止\r\n");
 						break;
 						
-					// 云台控制
-					case 'k':  // 上仰45度
-						gimbal_pitch += 0.1f;
-						Gimbal_SetPitchAngle(gimbal_pitch);
-						USART1_Printf("云台上仰45度，当前俯仰角: %.1f度\r\n", gimbal_pitch);
-						break;
-						
-					case 'l':  // 下俯45度
-						gimbal_pitch -= 45.0f;
-						Gimbal_SetPitchAngle(gimbal_pitch);
-						USART1_Printf("云台下俯45度，当前俯仰角: %.1f度\r\n", gimbal_pitch);
-						break;
-						
-					case 'n':  // 左转45度
-						gimbal_yaw -= 45.0f;
-						Gimbal_SetYawAngle(gimbal_yaw);
-						USART1_Printf("云台左转45度，当前偏航角: %.1f度\r\n", gimbal_yaw);
-						break;
-						
-					case 'm':  // 右转45度
-						gimbal_yaw += 45.0f;
-						Gimbal_SetYawAngle(gimbal_yaw);
-						USART1_Printf("云台右转45度，当前偏航角: %.1f度\r\n", gimbal_yaw);
-						break;
-						
-					case 'o':  // 云台归零
-						gimbal_yaw = 0.0f;
-						gimbal_pitch = 0.0f;
-						Gimbal_SetYawAngle(gimbal_yaw);
-						delay_ms(10);
-						Gimbal_SetPitchAngle(gimbal_pitch);
-						USART1_SendString("云台归零位置\r\n");
-						break;
-						
 					// 状态查询
 					case 'A':  // 获取小车位置
 					{
@@ -287,11 +256,6 @@ int main(void)
 						USART1_Printf("偏航角: %.1f度\r\n", gimbal_state.yaw_angle);
 						USART1_Printf("俯仰速度: %d RPM\r\n", gimbal_state.pitch_speed);
 						USART1_Printf("偏航速度: %d RPM\r\n", gimbal_state.yaw_speed);
-						
-						// 显示轨迹同步状态
-//						Trajectory_Sync_State_t sync_state = Gimbal_GetTrajectoryState();
-//						USART1_Printf("轨迹同步状态: %s\r\n", 
-//									 sync_state == TRAJECTORY_SYNC_RUNNING ? "运行中" : "已停止");
 						break;
 					}
 					
