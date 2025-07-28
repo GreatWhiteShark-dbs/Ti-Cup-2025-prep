@@ -296,7 +296,7 @@ class TrajectoryTool:
             cv2.putText(canvas, text, (10, y_offset + i * 25), 
                        cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, 1)
     
-    def send_circle_trajectory(self, duration=10.0):
+    def send_circle_trajectory(self, duration=30.0):
         """发送圆形轨迹点
         Args:
             duration: 画圆总时长(秒)
@@ -306,10 +306,11 @@ class TrajectoryTool:
             return
     
         center_x, center_y = 500, 500  # 圆心坐标(0-1000范围)
-        radius = 30  # 半径缩小一半(原400)
+        radius_x = 20  # X轴半径(原30缩小三分之一)
+        radius_y = 30  # Y轴半径保持不变
         
         # 发送第一个点(圆心右侧起始点)
-        first_x = center_x + radius
+        first_x = center_x + radius_x
         first_y = center_y
         self.send_trajectory_point(int(first_x), int(first_y))
         print("已发送起始点，等待5秒...")
@@ -326,8 +327,8 @@ class TrajectoryTool:
             angle = 2 * np.pi * progress
             
             # 计算圆上的点坐标
-            x = center_x + radius * np.cos(angle)
-            y = center_y + radius * np.sin(angle)
+            x = center_x + radius_x * np.cos(angle)
+            y = center_y + radius_y * np.sin(angle)
             
             # 发送轨迹点
             self.send_trajectory_point(int(x), int(y))

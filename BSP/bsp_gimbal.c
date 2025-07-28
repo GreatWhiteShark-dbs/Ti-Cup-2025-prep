@@ -36,7 +36,6 @@ void Gimbal_Init(void)
   */
 void Gimbal_SetPitchAngle(float angle)
 {
-    
     uint32_t pulses;
     uint8_t dir;
     
@@ -44,12 +43,12 @@ void Gimbal_SetPitchAngle(float angle)
     if(angle >= 0)
     {
         dir = 0;  // 正方向
-        pulses = (uint32_t)(angle * 3200.0f / 360.0f);
+        pulses = GIMBAL_ANGLE_TO_PULSES(angle);
     }
     else
     {
         dir = 1;  // 反方向
-        pulses = (uint32_t)((-angle) * 3200.0f / 360.0f);
+        pulses = GIMBAL_ANGLE_TO_PULSES(-angle);
     }
     
     Emm_V5_Pos_Control(PITCH_MOTOR_ADDR, dir, GIMBAL_POS_SPEED, GIMBAL_POS_ACCEL, pulses, true, false);
@@ -63,7 +62,6 @@ void Gimbal_SetPitchAngle(float angle)
   */
 void Gimbal_SetYawAngle(float angle)
 {
-    
     uint32_t pulses;
     uint8_t dir;
     
@@ -71,12 +69,12 @@ void Gimbal_SetYawAngle(float angle)
     if(angle >= 0)
     {
         dir = 0;  // 正方向
-        pulses = (uint32_t)(angle * 3200.0f / 360.0f);
+        pulses = GIMBAL_ANGLE_TO_PULSES(angle);
     }
     else
     {
         dir = 1;  // 反方向
-        pulses = (uint32_t)((-angle) * 3200.0f / 360.0f);
+        pulses = GIMBAL_ANGLE_TO_PULSES(-angle);
     }
     
     Emm_V5_Pos_Control(YAW_MOTOR_ADDR, dir, GIMBAL_POS_SPEED, GIMBAL_POS_ACCEL, pulses, true, false);

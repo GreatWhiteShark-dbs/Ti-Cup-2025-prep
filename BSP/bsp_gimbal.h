@@ -8,8 +8,13 @@
 #define PITCH_MOTOR_ADDR    5    // 俯仰电机地址
 #define YAW_MOTOR_ADDR      6    // 偏航角电机地址
 
+/* 云台电机细分设置 */
+#define GIMBAL_MICROSTEP           256                    // 细分数（可修改：1, 2, 4, 8, 16, 32等）
+#define GIMBAL_PULSES_PER_REV      (200 * GIMBAL_MICROSTEP)  // 每圈脉冲数 = 200 * 细分数
+#define GIMBAL_ANGLE_TO_PULSES(angle)  ((uint32_t)((angle) * GIMBAL_PULSES_PER_REV / 360.0f))  // 角度转脉冲数
+
 /* 云台速度和加速度定义 */
-#define GIMBAL_POS_SPEED      1   // 位置模式速度（RPM）
+#define GIMBAL_POS_SPEED      100   // 位置模式速度（RPM）
 #define GIMBAL_POS_ACCEL     200      // 位置模式加速度
 #define GIMBAL_VEL_ACCEL     200      // 速度模式加速度
 
