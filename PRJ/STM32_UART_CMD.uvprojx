@@ -524,16 +524,6 @@
               <FileType>5</FileType>
               <FilePath>..\BSP\bsp_packet.h</FilePath>
             </File>
-            <File>
-              <FileName>bsp_imu_navigation.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\bsp_imu_navigation.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_imu_navigation.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\BSP\bsp_imu_navigation.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

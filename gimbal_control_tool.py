@@ -12,7 +12,7 @@ class GimbalControlTool:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("云台控制工具")
-        self.root.geometry("900x700")  # 增大窗口尺寸
+        self.root.geometry("800x1000")  # 增大窗口尺寸
         self.root.resizable(True, True)  # 允许调整窗口大小
         
         # 串口配置
@@ -124,9 +124,9 @@ class GimbalControlTool:
         small_frame.grid(row=0, column=0, columnspan=3, pady=(0, 5))
         ttk.Label(small_frame, text="小角度(15°):").grid(row=0, column=0, padx=(0, 10))
         ttk.Button(small_frame, text="上仰", command=lambda: self.quick_move(15, 0)).grid(row=0, column=1)
-        ttk.Button(small_frame, text="左转", command=lambda: self.quick_move(0, -15)).grid(row=1, column=0)
+        ttk.Button(small_frame, text="左转", command=lambda: self.quick_move(0, 15)).grid(row=1, column=0)  # 改为正值
         ttk.Button(small_frame, text="归零", command=self.reset_gimbal).grid(row=1, column=1)
-        ttk.Button(small_frame, text="右转", command=lambda: self.quick_move(0, 15)).grid(row=1, column=2)
+        ttk.Button(small_frame, text="右转", command=lambda: self.quick_move(0, -15)).grid(row=1, column=2)  # 改为负值
         ttk.Button(small_frame, text="下俯", command=lambda: self.quick_move(-15, 0)).grid(row=2, column=1)
         
         # 大角度控制
@@ -134,9 +134,9 @@ class GimbalControlTool:
         large_frame.grid(row=1, column=0, columnspan=3, pady=(5, 0))
         ttk.Label(large_frame, text="大角度(90°):").grid(row=0, column=0, padx=(0, 10))
         ttk.Button(large_frame, text="上仰", command=lambda: self.quick_move(90, 0)).grid(row=0, column=1)
-        ttk.Button(large_frame, text="左转", command=lambda: self.quick_move(0, -90)).grid(row=1, column=0)
+        ttk.Button(large_frame, text="左转", command=lambda: self.quick_move(0, 90)).grid(row=1, column=0)  # 改为正值
         ttk.Button(large_frame, text="180°", command=lambda: self.quick_move(0, 180)).grid(row=1, column=1)
-        ttk.Button(large_frame, text="右转", command=lambda: self.quick_move(0, 90)).grid(row=1, column=2)
+        ttk.Button(large_frame, text="右转", command=lambda: self.quick_move(0, -90)).grid(row=1, column=2)  # 改为负值
         ttk.Button(large_frame, text="下俯", command=lambda: self.quick_move(-90, 0)).grid(row=2, column=1)
         
     def create_status_frame(self, parent):
